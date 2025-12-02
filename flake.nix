@@ -28,19 +28,17 @@
         default = pkgs.mkShell {
           # The Nix packages provided in the environment
           packages = with pkgs; [
-            python312
-            python312Packages.uv
-            sqlite
+            zig
           ];
 
           shellHook = ''
             if [ -z "$NIX_SHELL_NESTED" ]; then
               export NIX_SHELL_NESTED=1
               alias ipy="uv run ipython --nosep"
-              export PS1="⚡ \e[38;5;208m\][Z]e[38;5;015m\][ZIG\e[0m $PS1"
+              export PS1="⚡ \e[38;5;214m\][Z] \e[38;5;015m\]ZIG\e[0m $PS1"
             else
-              echo "Nested nix-shell detected, skipping uv init"
-              export PS1="⚡ \e[38;5;208m\][Z]e[38;5;015m\][ZIG\e[0m [NESTED] $PS1"
+              echo "Nested nix-shell detected"
+              export PS1="⚡ \e[38;5;214m\][Z] \e[38;5;015m\]ZIG\e[0m [NESTED] $PS1"
             fi
           '';
         };
