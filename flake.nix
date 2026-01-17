@@ -5,17 +5,19 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     zig-overlay.url = "github:mitchellh/zig-overlay";
+    # Optional but recommended: reduce eval time & avoid duplicate nixpkgs
+    # zig-overlay.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   # Flake outputs
-  outputs = { self, nixpkgs }:
+  outputs = { self, nixpkgs, zig-overlay }:
     let
       # Systems supported
       allSystems = [
-        "x86_64-linux" # 64-bit Intel/AMD Linux
-        "aarch64-linux" # 64-bit ARM Linux
-        "x86_64-darwin" # 64-bit Intel macOS
-        "aarch64-darwin" # 64-bit ARM macOS
+        "x86_64-linux"    # 64-bit Intel/AMD Linux
+        "aarch64-linux"   # 64-bit ARM Linux
+        "x86_64-darwin"   # 64-bit Intel macOS
+        "aarch64-darwin"  # 64-bit ARM macOS
       ];
 
       # Helper to provide system-specific attributes
@@ -46,5 +48,3 @@
       });
     };
 }
-
-
