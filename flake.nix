@@ -1,9 +1,10 @@
 {
-  description = "Python 3.11 development environment";
+  description = "zig dev environment master (latest)";
 
   # Flake inputs
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    zig-overlay.url = "github:mitchellh/zig-overlay";
   };
 
   # Flake outputs
@@ -28,17 +29,17 @@
         default = pkgs.mkShell {
           # The Nix packages provided in the environment
           packages = with pkgs; [
-            zig
+            zig-overlay.packages.${system}.master   # ← changed to use master from the overlay
           ];
 
           shellHook = ''
             if [ -z "$NIX_SHELL_NESTED" ]; then
               export NIX_SHELL_NESTED=1
               alias ipy="uv run ipython --nosep"
-              export PS1="⚡ \e[38;5;214m\][Z] \e[38;5;015m\]ZIG\e[0m $PS1"
+              export PS1="⚡\e[38;5;214m\][Z]\e[38;5;015m\]ZIG\e[0m $PS1"
             else
               echo "Nested nix-shell detected"
-              export PS1="⚡ \e[38;5;214m\][Z] \e[38;5;015m\]ZIG\e[0m [NESTED] $PS1"
+              export PS1="⚡\e[38;5;214m\][Z]\e[38;5;015m\]ZIG\e[0m [NESTED] $PS1"
             fi
           '';
         };
